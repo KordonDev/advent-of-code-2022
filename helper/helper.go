@@ -1,14 +1,15 @@
-package main
+package helper
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"sort"
 	"strconv"
 )
 
-func readFile(filePath string) []string {
+func ReadFile(filePath string) []string {
 	file, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal(err)
@@ -22,10 +23,11 @@ func readFile(filePath string) []string {
 		texts = append(texts, scanner.Text())
 	}
 	file.Close()
+	fmt.Printf("Read file %s\n", filePath)
 	return texts
 }
 
-func stringToInt(s string) int {
+func ToInt(s string) int {
 	value, err := strconv.Atoi(s)
 	if err != nil {
 		log.Fatal(err)
@@ -33,29 +35,29 @@ func stringToInt(s string) int {
 	return value
 }
 
-func stringsToInt(s []string) []int {
+func ToInts(s []string) []int {
 	var numbers []int
 	for _, line := range s {
-		numbers = append(numbers, stringToInt(line))
+		numbers = append(numbers, ToInt(line))
 	}
 	return numbers
 }
 
-func abs(i int) int {
+func Abs(i int) int {
 	if i < 0 {
 		return -i
 	}
 	return i
 }
 
-func min(a, b int) int {
+func Min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
 }
 
-func max(a, b int) int {
+func Max(a, b int) int {
 	if a > b {
 		return a
 	}
@@ -63,18 +65,18 @@ func max(a, b int) int {
 }
 
 // sort max to min
-func sortMaxToMin(ints *[]int) {
+func SortMaxToMin(ints *[]int) {
 	sort.Ints(*ints)
 	sort.SliceStable(*ints, func(i, j int) bool {
 		return j < i
 	})
 }
 
-func sortMixToMax(ints *[]int) {
+func SortMinToMax(ints *[]int) {
 	sort.Ints(*ints)
 }
 
-func slice(array []string, start int, end int, insert string) []string {
+func Slice(array []string, start int, end int, insert string) []string {
 	a1 := append(array[:start], insert)
 	if end >= len(array) {
 		return a1
@@ -82,7 +84,7 @@ func slice(array []string, start int, end int, insert string) []string {
 	return append(a1, array[end:]...)
 }
 
-func sliceArray(array []string, start int, end int, insert []string) []string {
+func SliceArray(array []string, start int, end int, insert []string) []string {
 	a1 := append(array[:start], insert...)
 	if end >= len(array) {
 		return a1
@@ -90,7 +92,7 @@ func sliceArray(array []string, start int, end int, insert []string) []string {
 	return append(a1, array[end:]...)
 }
 
-func removeItems(list1 *[]string, list2 *[]string) ([]string, bool) {
+func RemoveItems(list1 *[]string, list2 *[]string) ([]string, bool) {
 	var result []string
 	change := false
 	for _, item1 := range *list1 {
@@ -108,4 +110,19 @@ func removeItems(list1 *[]string, list2 *[]string) ([]string, bool) {
 		}
 	}
 	return result, change
+}
+
+func SplitBy(list []string, divider string) [][]string {
+	var result [][]string
+	var currentList []string
+	for _, v := range list {
+		if v == divider {
+			result = append(result, currentList)
+			currentList = []string{}
+			continue
+		}
+		currentList = append(currentList, v)
+	}
+
+	return result
 }

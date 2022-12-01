@@ -1,27 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/kordondev/advent-of-code-2022/helper"
+)
 
 func main() {
-	printMax("./1-example.txt")
+	printMax("1-example.txt")
 	printMax("1.txt")
 
-	printTop3Max("./1-example.txt")
+	printTop3Max("1-example.txt")
 	printTop3Max("1.txt")
 }
 
 func printMax(filename string) {
-	lines := readFile(filename)
+	lines := helper.ReadFile(filename)
 	max := getMaxValues(lines)
 
-	fmt.Printf("Max for %s is %d.\n", filename, max[0])
+	fmt.Printf("Max is %d.\n\n", max[0])
 }
 
 func printTop3Max(filename string) {
-	lines := readFile(filename)
+	lines := helper.ReadFile(filename)
 	max := getMaxValues(lines)
 
-	fmt.Printf("Max top 3 for %s is %d.\n", filename, max[0]+max[1]+max[2])
+	fmt.Printf("Max top 3 is %d.\n\n", max[0]+max[1]+max[2])
 }
 
 func getMaxValues(allValues []string) []int {
@@ -35,8 +38,8 @@ func getMaxValues(allValues []string) []int {
 			currentMax = 0
 			continue
 		}
-		currentMax = currentMax + stringToInt(value)
+		currentMax = currentMax + helper.ToInt(value)
 	}
-	sortMaxToMin(&allMaxSorted)
+	helper.SortMaxToMin(&allMaxSorted)
 	return allMaxSorted
 }
